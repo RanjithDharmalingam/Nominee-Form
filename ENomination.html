@@ -169,7 +169,7 @@
   </div> -->
   <div class="d-flex justify-content-around w-100">
     <button Type="button" onclick="AddRow()">Add Row</button>
-    <button type="submit" onclick="SaveNominee">Save Family Details</button>
+    <button type="submit" onclick="SaveNominee()">Save Family Details</button>
   </div>
 
   <footer>
@@ -178,10 +178,14 @@
 
 </body>
 <script>
-  function saveNominee() {
+  // Function to make the API call
+  function SaveNominee() {
+    // Define the URL of the API endpoint
     const apiUrl = 'https://personal-0cg3a0n5.outsystemscloud.com/Insurance/rest/Nominee/SaveNominee';
+
+    // Get values from the input fields dynamically
     const rows = document.querySelectorAll('.inputRow');
-    const nominees = Array.from(rows).map(row => {
+    const NomineeDetails = Array.from(rows).map(row => {
       const inputs = row.querySelectorAll('input');
       return {
         Aadhar: inputs[1].value,
@@ -194,30 +198,40 @@
       };
     });
 
+    // Configure the fetch request using variables
     const requestOptions = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(nominees)
+      body: JSON.stringify(NomineeDetails)
     };
 
+    // Make the POST request using the fetch function
     fetch(apiUrl, requestOptions)
       .then(response => response.json())
       .then(data => {
         console.log('Response:', data);
-        alert("Family details saved successfully!");
+        const successMessage = data.SuccessMessage || 'Family details saved successfully!';
+        alert(successMessage);
       })
       .catch(error => {
         console.error('Error:', error);
-        alert("Error saving family details");
+        alert('Error saving family details');
       });
   }
 
-  function AddRow() {
+    function AddRow() {
     var container = document.getElementById("inputContainer");
     var existingRow = document.querySelector('.inputRow');
     var newRow = existingRow.cloneNode(true);
+
+    // Clear input values in the cloned row
+    var inputsInNewRow = newRow.querySelectorAll('input');
+    inputsInNewRow.forEach(input => {
+      input.value = '';
+    });
+
     container.appendChild(newRow);
   }
 </script>
