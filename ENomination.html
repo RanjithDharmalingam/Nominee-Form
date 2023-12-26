@@ -115,7 +115,7 @@
             <input class="input" type="text" placeholder="Name">
           </th>
           <th scope="col">
-            <input class="input" type="text" placeholder="DD/MM/YYYY">
+            <input class="input" type="text" placeholder="YYYY-MM-DD">
           </th>
           <th scope="col">
             <input class="input" type="text" placeholder="Relation">
@@ -178,6 +178,42 @@
 
 </body>
 <script>
+  // Define the URL of the API endpoint
+const apiUrl = 'https://personal-0cg3a0n5.outsystemscloud.com/Insurance/rest/Nominee/SaveNominee';
+
+// Create an object with the data you want to send
+const postData = {
+  Aadhar: "461889354521",
+  Name: "Kumar Chandrasekaran",
+  DateOfBirth: "1996-07-09",
+  Relation: "Husband",
+  AddressOfNominee: "Thane",
+  NameandAdressofGuardian: "Thane",
+  TotalAmountofShare: 100
+};
+
+// Convert the data object to a JSON-formatted string
+const jsonData = JSON.stringify(postData);
+
+// Configure the fetch request using variables
+const requestOptions = {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: jsonData
+};
+
+// Make the POST request using the fetch function
+fetch(apiUrl, requestOptions)
+  .then(response => response.json())
+  .then(data => {
+    console.log('Response:', data);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+
   function AddRow() {
     var container = document.getElementById("inputContainer");
     var existingRow = document.querySelector('.inputRow'); // Select the existing row
